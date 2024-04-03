@@ -1,0 +1,48 @@
+{% extends "quotes/base.html" %} {% load extract_tags %} {% block content %}
+
+<div class="row">
+    <div class="column1">
+        {% for quote in quotes %}
+        <div class="quote">
+            <span class="text">
+                {{quote.quote}}
+            </span>
+            <span>
+                by
+                <small class="author">{{quote.author}}</small>
+                <a href="{% url 'quotes:author' author_id=quote.author.id %}">(about)</a>
+            </span>
+            <div>
+                Tags: <span class="tag">{{ quote.tags|tags }}</span>
+            </div>
+        </div>
+        {% endfor %}
+        <nav>
+            <ul class="pager">
+                <li class="previous">
+                    {% if quotes.has_previous %}
+                    <a href="{% url 'quotes:root_paginate' quotes.previous_page_number %}">
+                        <span aria-hidden="true">←</span> Previous</a>
+                    {% endif %}
+                </li>
+                <li class="next">
+                    {% if quotes.has_next %}
+                    <a href="{% url 'quotes:root_paginate' quotes.next_page_number %}">
+                        Next <span aria-hidden="true">→</span></a>
+                    {% endif %}
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <div class="column2">
+        {% if user.is_authenticated %}
+        <ul class="no-dots">
+            <li><a href="{% url 'quotes:add_tag' %}">Add tag</a></li>
+            <li><a href="{% url 'quotes:add_author' %}">Add author</a></li>
+            <li><a href="{% url 'quotes:add_quote' %}">Add quote</a></li>
+        </ul>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "quotes/base.html" %} {% load extract_tags %} {% block content %}
+<div class="row">
+    <form method="POST" action="{% url 'quotes:add_quote' %}">
+    {% csrf_token %}
+        <div style="padding: 10px">
+            <label>Enter quote:
+                {{form.quote}}
+            </label>
+            <label>Enter quote's author:
+                {{form.author}}
+            </label>
+            <label> Select tags:
+                <select name="tags" multiple="multiple" required>
+                {% for tag in tags %}
+                <option value="{{tag.name}}">{{tag.name}}</option>
+                {% endfor %}
+                </select>
+            </label>
+            <span>{{ form.errors.name }}</span>
+        </div>
+        <div class="grid">
+            <button type="submit">Submit</button>
+            <button type="reset" class="secondary">Reset</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}>
